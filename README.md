@@ -1,2 +1,2 @@
 # NBAssistant
-Fantasy Twister (NBA Gambling)
+Fantasy Twister (NBA Assistant)
