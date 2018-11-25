@@ -1,4 +1,4 @@
 # NBAssistant
-Fantasy Twister (NBA Gambling)
 
 Created by: Twister team
+Fantasy Twister (NBA Assistant)
