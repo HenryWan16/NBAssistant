@@ -8,8 +8,7 @@
 2. cd /NBAssistant/server
 3. pip3 install -r requirements.txt
 4. cd /NBAssistant/
-5. export FLASK_APP=./server/services/main.py
-6. flask run
+5. python3 ./server/services/main.py
 7. Open a terminal, then send http request with curl
 
 ```
