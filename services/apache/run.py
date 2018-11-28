@@ -1,6 +1,5 @@
 # This is only created for unit tests
-
-from services.apache.business import create_app
+from business import create_app
 
 app = create_app()
 

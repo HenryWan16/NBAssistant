@@ -7,13 +7,13 @@
 ## Unit test
 Running the server without Apache2 and Docker.
 1. install python3.6.4
-2. export PYTHONPATH="<path_to_NBAssistant>:$PYTHONPATH"
+2. export PYTHONPATH="<path_to_apache>:$PYTHONPATH"
 + Example:
-+ export PYTHONPATH="/Users/henry/Workspace/NBAssistant/services/apache/business:$PYTHONPATH"
++ export PYTHONPATH="/Users/henry/Workspace/NBAssistant/services/apache:$PYTHONPATH"
 3. cd NBAssistant/services/apache
 4. pip3 install -r requirements.txt
 5. cd ./business
-6. python3 unittest.py
+6. python3 run.py
 7. Open a terminal, then send http requests with curl
 
 ## Testing result

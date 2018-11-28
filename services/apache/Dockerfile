@@ -21,9 +21,11 @@ COPY requirements.txt /workdir/
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
 RUN pip install -r /workdir/requirements.txt
 
+ENV PYTHONPATH $PYTHONPATH:/workdir
+
 COPY ./www /var/www
 COPY ./httpd_conf /etc/apache2/
-COPY ./business /workdir/
+COPY ./business /workdir/business
 
 EXPOSE 80
 CMD apachectl -D FOREGROUND
