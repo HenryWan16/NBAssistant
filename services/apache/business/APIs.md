@@ -52,7 +52,7 @@ Get top 20 players list
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": [
 		{
@@ -85,7 +85,7 @@ Get top 20 teams list
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": [
 		{
@@ -111,7 +111,7 @@ Response:
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": {
 	    "player_id": "12",
@@ -151,7 +151,7 @@ Response:
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": {
 		"team_id": "1321",
@@ -184,7 +184,7 @@ Response:
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": {
 		"exist": true,
@@ -210,7 +210,7 @@ Response (no match on that day)
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": {
 		"exist": false,
@@ -233,7 +233,7 @@ Response:
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": [
 		{
@@ -258,7 +258,7 @@ Response:
 ```JSON
 {
 	"meta": {
-		"code": 200  // 200 if success
+		"code": 200
 	},
 	"data": {
 		"champion": {
