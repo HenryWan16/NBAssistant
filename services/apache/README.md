@@ -20,6 +20,7 @@ Running the server without Apache2 and Docker.
 ```
 With the help of curl, we can get all the json responses from our server.
 curl -X GET "http://127.0.0.1:5000/api/home"
+curl -X GET "http://127.0.0.1:5000/api/players/b"
 curl -X GET "http://127.0.0.1:5000/api/top-players/10"
 curl -X GET "http://127.0.0.1:5000/api/top-teams/10"
 curl -X GET "http://127.0.0.1:5000/api/predictions"

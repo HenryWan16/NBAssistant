@@ -92,10 +92,37 @@ Get top 20 teams list
 			"team_id": "1301",
 			"team_name": "Houston Rockets",
 			"location": "Houston",
-			"logo": "tiny_url"
+			"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
 		},
 		{}
 	]
+}
+```
+
+### GET
+/api/players/<first_character_of_last_name>
+```
+Example:
+GET /api/players/a
+Get information about all the players whose last name is 'a'
+```
+Response:
+```JSON
+{
+	"meta": {
+		"code": 200
+	},
+	"data": [
+        {
+    	    "player_id": "12",
+            "player_name": "James Harden",
+            "team_name": "Houston Rockets",
+            "team_id": "1301",
+            "picture": "tiny_url"
+        },
+        {},
+        {}
+    ]
 }
 ```
 
@@ -188,20 +215,28 @@ Response:
 	},
 	"data": {
 		"exist": true,
-		"date": "2018-10-16",
-		"start_time_ET": "20:00", 
-		"visitor": "New Orleans Pelicans",
-		"home": "Houston Rockets",
-		"teamA": {
-			"team_id": "1301",
-			"team_name": "Houston Rockets",
-			"location": "Houston"
-		},
-		"teamB": {
-			"team_id": "1531",
-			"team_name": "New Orleans Pelicans",
-			"location": "New Orleans"
-		}
+		"details": [
+		    {
+		        "date": "2018-10-16",
+				"start_time_ET": "20:00",
+				"home": "Houston Rockets",
+				"visitor": "New Orleans Pelicans",
+				"teamA": {
+					"team_id": "1301",
+					"team_name": "Houston Rockets",
+					"location": "Houston",
+					"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
+				},
+				"teamB": {
+					"team_id": "1531",
+					"team_name": "New Orleans Pelicans",
+					"location": "New Orleans",
+					"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/NOH.png"
+				}
+			},
+			{},
+			{}
+		]
 	}
 }
 ```
@@ -265,17 +300,17 @@ Response:
 			"east_champion": {
 				"team_id": 1301,
 				"team_name": "Houston Rockets",
-				"logo": "tiny_url"
+				"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
 			},
 			"west_champion": {
 				"team_id": 1301,
 				"team_name": "Houston Rockets",
-				"logo": "tiny_url"
+				"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
 			},
 			"final_champion": {
 				"team_id": 1301,
 				"team_name": "Houston Rockets",
-				"logo": "tiny_url"
+				"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
 			}
 		},
 		"teams_to_play_off": {
@@ -299,27 +334,6 @@ Response:
 	                "turnovers": 1.4
 	            }
 			}
-		},
-		"MIP": {
-			"player_id": 13,
-			"player_name": "James Harden",
-			"prediction": {
-				"statistics": {
-	                "points": 9.9,
-	                "rebounds": 3.2,
-	                "assists": 1.8,
-	                "blocks": 0.3,
-	                "steals": 1.1,
-	                "turnovers": 1.4
-	            }
-			}
-		},
-		"coach_of_year": {
-			"coach_id": 12,
-			"coach_name": "Mike D'Antoni",
-			"team_name": "Houston Rockets",
-			"team_id": 1321,
-			"coach_photo": "tiny_url"
 		}
 	}
 }

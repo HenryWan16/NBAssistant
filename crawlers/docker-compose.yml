@@ -1,0 +1,6 @@
+version: '3'
+
+services:
+  crawler:
+    image: web_crawler:latest
+    restart: always

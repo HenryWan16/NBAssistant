@@ -14,20 +14,28 @@ def schedule(date):
         },
         "data": {
             "exist": True,
-            "date": date,
-            "start_time_ET": "20:00",
-            "visitor": "New Orleans Pelicans",
-            "home": "Houston Rockets",
-            "teamA": {
-                "team_id": "1301",
-                "team_name": "Houston Rockets",
-                "location": "Houston"
-            },
-            "teamB": {
-                "team_id": "1531",
-                "team_name": "New Orleans Pelicans",
-                "location": "New Orleans"
-            }
+            "details": [
+                {
+                    "date": "2018-10-16",
+                    "start_time_ET": "20:00",
+                    "home": "Houston Rockets",
+                    "visitor": "New Orleans Pelicans",
+                    "teamA": {
+                        "team_id": "1301",
+                        "team_name": "Houston Rockets",
+                        "location": "Houston",
+                        "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
+                    },
+                    "teamB": {
+                        "team_id": "1531",
+                        "team_name": "New Orleans Pelicans",
+                        "location": "New Orleans",
+                        "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/NOH.png"
+                    }
+                },
+                {},
+                {}
+            ]
         }
     }
     return json.dumps(res)

@@ -17,17 +17,17 @@ def getPredictions():
                 "east_champion": {
                     "team_id": "1301",
                     "team_name": "Houston Rockets",
-                    "logo": "tiny_url"
+                    "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
                 },
                 "west_champion": {
                     "team_id": "1301",
                     "team_name": "Houston Rockets",
-                    "logo": "tiny_url"
+                    "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
                 },
                 "final_champion": {
                     "team_id": "1301",
                     "team_name": "Houston Rockets",
-                    "logo": "tiny_url"
+                    "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
                 }
             },
             "teams_to_play_off": {
@@ -51,27 +51,6 @@ def getPredictions():
                         "turnovers": 1.4
                     }
                 }
-            },
-            "MIP": {
-                "player_id": "13",
-                "player_name": "James Harden",
-                "prediction": {
-                    "statistics": {
-                        "points": 9.9,
-                        "rebounds": 3.2,
-                        "assists": 1.8,
-                        "blocks": 0.3,
-                        "steals": 1.1,
-                        "turnovers": 1.4
-                    }
-                }
-            },
-            "coach_of_year": {
-                "coach_id": "12",
-                "coach_name": "Mike D'Antoni",
-                "team_name": "Houston Rockets",
-                "team_id": "1321",
-                "coach_photo": "tiny_url"
             }
         }
     }

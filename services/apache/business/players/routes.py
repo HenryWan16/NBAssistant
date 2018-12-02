@@ -22,8 +22,8 @@ def player(player_id):
             "weight": 100.00,
             "gender": "Male",
             "points": 9.9,
-            "picture": "tiny_url",
-            "description": "https://en.wikipedia.org/wiki/James_Harden",
+            "picture": "https://d2cwpp38twqe55.cloudfront.net/req/201811081/images/players/thorpot01.jpg",
+            "description": "",
             "predictions": {
                 "statistics": {
                     "points": 9.9,
@@ -49,10 +49,32 @@ def top_players(number_of_players):
             "player_name": "James Harden",
             "team_id": "217",
             "team_name": "Houston Rockets",
-            "picture": "tiny_url"
+            "picture": "https://d2cwpp38twqe55.cloudfront.net/req/201811081/images/players/abrinal01.jpg"
         }
         players_list.append(temp_player)
 
+    res = {
+        "meta": {
+            "code": 200
+        },
+        "data": players_list
+    }
+    return json.dumps(res)
+
+
+@players.route("/api/players/<string:first_character_of_last_name>")
+def player_with_specific_last_name(first_character_of_last_name):
+    # TODO
+    players_list = []
+    for i in range(0, 35):
+        temp_player = {
+            "player_id": "1301",
+            "player_name": "James Harden",
+            "team_id": "217",
+            "team_name": "Houston Rockets",
+            "picture": "https://d2cwpp38twqe55.cloudfront.net/req/201811081/images/players/abrinal01.jpg"
+        }
+        players_list.append(temp_player)
     res = {
         "meta": {
             "code": 200

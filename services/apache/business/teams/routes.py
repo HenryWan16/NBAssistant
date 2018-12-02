@@ -40,7 +40,7 @@ def top_teams(number_of_teams):
             "team_id": "1301",
             "team_name": "Houston Rockets",
             "location": "Houston",
-            "logo": "tiny_url"
+            "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
         }
         teams_list.append(temp_team)
     res = {

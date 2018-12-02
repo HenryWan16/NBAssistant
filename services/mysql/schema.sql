@@ -31,8 +31,8 @@ CREATE TABLE `players` (
   `gender` varchar(6) DEFAULT NULL,
   `photo` varchar(200) DEFAULT NULL,
   `position` varchar(100) DEFAULT NULL,
-  `height` decimal(11,2) DEFAULT NULL,
-  `weight` decimal(11,2) DEFAULT NULL,
+  `height` varchar(5) DEFAULT NULL,
+  `weight` INT(32) DEFAULT NULL,
   `points` decimal(11,2) DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -49,11 +49,14 @@ DROP TABLE IF EXISTS `schedules`;
 
 CREATE TABLE `schedules` (
   `id` bigint(64) NOT NULL AUTO_INCREMENT,
-  `start_time_ET` timestamp NULL DEFAULT NULL,
+  `date` varchar(10) DEFAULT NULL,
+  `start_time_ET` varchar(6) DEFAULT NULL,
   `visitor` varchar(100) DEFAULT NULL,
   `home` varchar(100) DEFAULT NULL,
   `teamA_id` bigint(64) DEFAULT NULL,
+  `teamA_score` int(32) DEFAULT NULL,
   `teamB_id` bigint(64) DEFAULT NULL,
+  `teamB_score` int(32) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `start_time_ET` (`start_time_ET`)
