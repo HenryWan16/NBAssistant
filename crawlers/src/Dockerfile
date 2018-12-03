@@ -11,7 +11,7 @@ RUN apt-get update &&\
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workdir/
-COPY src /workdir/
+COPY ./ /workdir/
 RUN ln -s /usr/bin/pip3 /usr/bin/pip
 RUN pip install -r /workdir/requirements.txt
 

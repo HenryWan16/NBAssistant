@@ -9,6 +9,7 @@ from players import Player
 from schedules import Schedule
 from teams import Team
 from teams import TeamPlayer
+import logging
 
 
 configuration = Config()
@@ -36,6 +37,8 @@ class WebCrawler:
             self.driver.implicitly_wait(configuration.IMPLICIT_WAIT_TIME)
         self.wait = WebDriverWait(self.driver, configuration.WAIT_TIME)
         # self.wait.until(EC.presence_of_element_located((By.XPATH, element_xpath)), configuration.WAIT_TIME)
+        configuration.log_init()
+        self.logger = logging.getLogger()
 
     def get_teams_info(self, basic_url):
         url = basic_url + "teams"
@@ -54,11 +57,11 @@ class WebCrawler:
             logo = "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/" + temp[-2] + ".png"
             team_logos.append(logo)
             # debug log:
-            print("Teams crawler (logo): " + logo)
+            self.logger.debug("Teams crawler (logo): " + logo)
             team_url = "https://www.basketball-reference.com/teams/" + temp[-2] + "/"
             team_urls.append(team_url)
             # debug log:
-            print("Teams crawler (description): " + team_url)
+            self.logger.debug("Teams crawler (description): " + team_url)
 
         # location
         for team_url in team_urls:
@@ -68,7 +71,7 @@ class WebCrawler:
                 location = location_element.text
                 team_locations.append(location)
                 # debug log
-                print("Team crawler (location): " + location)
+                self.logger.debug("Team crawler (location): " + location)
             except NoSuchElementException:
                 team_locations.append(None)
 
@@ -83,7 +86,7 @@ class WebCrawler:
             team_json = team.__dict__
             team_table_handler.upsert(team_json, ['name'])
             # info log
-            print("Upsert team (name) successfully! " + team_full_names[i])
+            self.logger.debug("Upsert team (name) successfully! " + team_full_names[i])
 
 
     def get_schedules_info(self, schedules_url, year, month):
@@ -104,7 +107,7 @@ class WebCrawler:
             date_str = str(year) + "-" + month_dict[month] + "-" + day
             schedule_dates.append(date_str)
             # debug log
-            print("Schedule crawler (date): " + date_str)
+            self.logger.debug("Schedule crawler (date): " + date_str)
 
         # start_time_ET
         schedules_start_time_ET_elements = self.driver.find_elements(By.XPATH, "//table[@id='schedule']//tbody//td[@data-stat='game_start_time']")
@@ -112,7 +115,7 @@ class WebCrawler:
             start_time_ET_str = start_time_ET.text
             schedule_start_time_ETs.append(start_time_ET_str)
             # debug log
-            print("Schedule crawler (start_time_ET): " + start_time_ET_str)
+            self.logger.debug("Schedule crawler (start_time_ET): " + start_time_ET_str)
 
         # visitor
         visitors_elements = self.driver.find_elements(By.XPATH, "//table[@id='schedule']//tbody//td[@data-stat='visitor_team_name']")
@@ -120,7 +123,7 @@ class WebCrawler:
             visitor_str = visitor.text
             schedule_visitors.append(visitor_str)
             # debug log
-            print("Schedule crawler (visitor): " + visitor_str)
+            self.logger.debug("Schedule crawler (visitor): " + visitor_str)
 
         # visitor_score
         visitors_score_elements = self.driver.find_elements(By.XPATH, "//table[@id='schedule']//tbody//td[@data-stat='visitor_pts']")
@@ -128,7 +131,7 @@ class WebCrawler:
             visitor_score_str = visitor_score.text
             schedule_visitors_score.append(visitor_score_str)
             # debug log
-            print("Schedule crawler (visitor_score): " + visitor_score_str)
+            self.logger.debug("Schedule crawler (visitor_score): " + visitor_score_str)
 
         # home
         homes_elements = self.driver.find_elements(By.XPATH, "//table[@id='schedule']//tbody//td[@data-stat='home_team_name']")
@@ -136,7 +139,7 @@ class WebCrawler:
             home_str = home.text
             schedule_homes.append(home_str)
             # debug log
-            print("Schedule crawler (home): " + home_str)
+            self.logger.debug("Schedule crawler (home): " + home_str)
 
         # home_score
         homes_score_elements = self.driver.find_elements(By.XPATH, "//table[@id='schedule']//tbody//td[@data-stat='home_pts']")
@@ -144,7 +147,7 @@ class WebCrawler:
             home_score_str = home_score.text
             schedule_homes_score.append(home_score_str)
             # debug log
-            print("Schedule crawler (home_score): " + home_score_str)
+            self.logger.debug("Schedule crawler (home_score): " + home_score_str)
 
         # i = 5
         # print(schedule_dates[i])
@@ -167,7 +170,7 @@ class WebCrawler:
             schedule_json = schedule.__dict__
             schedule_table_handler.upsert(schedule_json, ['date', 'visitor'])
             # info log
-            print("Upsert schedule (date and visitor_name) successfully! " + schedule_dates[i] + " " + schedule_visitors[i])
+            self.logger.info("Upsert schedule (date and visitor_name) successfully! " + schedule_dates[i] + " " + schedule_visitors[i])
 
     def get_players_info(self, players_url, character, target_year):
         url = players_url + str(character)
@@ -196,7 +199,7 @@ class WebCrawler:
                 continue
             player_name = player_name_element.text
             # debug log
-            print("Player clawler (name): " + player_name)
+            self.logger.debug("Player clawler (name): " + player_name)
 
             # photo and description
             try:
@@ -214,7 +217,7 @@ class WebCrawler:
                 continue
             player_position = player_position_element.text
             # debug log
-            print("Player clawler (position): " + player_position)
+            self.logger.debug("Player clawler (position): " + player_position)
 
             # height
             try:
@@ -223,7 +226,7 @@ class WebCrawler:
                 continue
             player_height = player_height_element.text
             # debug log
-            print("Player clawler (height): " + player_height)
+            self.logger.debug("Player clawler (height): " + player_height)
 
             # weight
             try:
@@ -232,7 +235,7 @@ class WebCrawler:
                 continue
             player_weight = player_weight_element.text
             # debug log
-            print("Player clawler (weight): " + player_weight)
+            self.logger.debug("Player clawler (weight): " + player_weight)
 
             # team and points
             self.driver.get(player_description)
@@ -243,7 +246,7 @@ class WebCrawler:
             except NoSuchElementException:
                 player_team = None
             # debug log
-            print("Player name: " + str(player_name) + "Player clawler (player's team name): " + str(player_team))
+            self.logger.debug("Player name: " + str(player_name) + "Player clawler (player's team name): " + str(player_team))
             try:
                 # self.wait.until(EC.presence_of_element_located(
                 #     (By.XPATH, "//div[@class='stats_pullout']//div[@class='p1']/div[2]/p[2]")),
@@ -253,7 +256,7 @@ class WebCrawler:
             except NoSuchElementException:
                 player_points = None
             # debug log
-            print("Player name: " + str(player_name) + "Player clawler (player's points): " + str(player_points))
+            self.logger.debug("Player name: " + str(player_name) + "Player clawler (player's points): " + str(player_points))
 
             # insert into player table and team_player table
             player_table_handler = db['players']
@@ -266,8 +269,8 @@ class WebCrawler:
                             description=player_description)
             player_json = player.__dict__
             player_table_handler.upsert(player_json, ['name'])
-            # debug log
-            print("Upsert player (name) successfully! " + str(player_name))
+            # info log
+            self.logger.info("Upsert player (name) successfully! " + str(player_name))
 
             player = player_table_handler.find_one(name=player_name)
             player_id = player['id']
@@ -280,16 +283,16 @@ class WebCrawler:
                 team_player = TeamPlayer(team_id, player_id)
                 team_player_json = team_player.__dict__
                 team_players_table_handler.upsert(team_player_json, ['player_id'])
-                # debug log
-                print("Upsert team_player (team_id, player_id) successfully! " + str(team_id) + " " + str(player_id))
+                # info log
+                self.logger.info("Upsert team_player (team_id, player_id) successfully! " + str(team_id) + " " + str(player_id))
 
     def craw(self):
-        # self.get_teams_info(configuration.BASIC_URL)
-        # years = [2019, 2018]
-        # months = ['october', 'november', 'december', 'january', 'february', 'march', 'april']
-        # for year in years:
-        #     for month in months:
-        #         self.get_schedules_info(configuration.SCHEDULES_URL, year, month)
+        self.get_teams_info(configuration.BASIC_URL)
+        years = [2019, 2018]
+        months = ['october', 'november', 'december', 'january', 'february', 'march', 'april']
+        for year in years:
+            for month in months:
+                self.get_schedules_info(configuration.SCHEDULES_URL, year, month)
         characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
         for c in characters:
             self.get_players_info(configuration.PLAYERS_URL, c, configuration.TARGET_YEAR)

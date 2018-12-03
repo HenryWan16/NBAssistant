@@ -1,6 +1,26 @@
 version: '3'
 
 services:
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - "./mysql/conf.d:/etc/mysql/conf.d"
+      - "mysqldata:/var/lib/mysql"
+    restart: "no"
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: nba
+      MYSQL_DATABASE: nbassistant
+      MYSQL_USER: twist
+      MYSQL_PASSWORD: twist
+
   crawler:
-    image: web_crawler:latest
-    restart: always
+    depends_on:
+      - mysql
+    image: nbassistant_web_crawler:latest
+    restart: "no"
+
+# These volumes will be shared by all services.
+volumes:
+  mysqldata:
