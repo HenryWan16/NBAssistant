@@ -274,6 +274,7 @@ Response:
 		{
 			"team_id": "1208",
 			"team_name": "Houston Rockets",
+			"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png",
 			"scoreA": 32,
 			"scoreB": 23
 		},
@@ -324,6 +325,7 @@ Response:
 		"MVP": {
 			"player_id": 13,
 			"player_name": "James Harden",
+			"picture": "https://d2cwpp38twqe55.cloudfront.net/req/201811081/images/players/abrinal01.jpg",
 			"prediction": {
 				"statistics": {
 	                "points": 9.9,

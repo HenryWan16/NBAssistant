@@ -102,8 +102,54 @@ CREATE TABLE `teams` (
   KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+# Dump of table awards_prediction
+# ------------------------------------------------------------
 
+DROP TABLE IF EXISTS `awards_prediction`;
 
+CREATE TABLE `awards_prediction` (
+  `id` bigint(64) NOT NULL AUTO_INCREMENT,
+  `MVP` VARCHAR(100) NOT NULL,
+	`eastern_champion` VARCHAR(100) NOT NULL,
+	`western_champion` VARCHAR(100) NOT NULL,
+	`final_champion` VARCHAR(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+# Dump of table eastern_conference_playoffs_team
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `eastern_conference_playoffs_team`;
+
+CREATE TABLE `eastern_conference_playoffs_team` (
+  `Team_Name` VARCHAR(100) NOT NULL,
+	`Team_Ranking` VARCHAR(100) NOT NULL,
+	PRIMARY KEY(`Team_Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+# Dump of table eastern_conference_playoffs_team
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `western_conference_playoffs_team`;
+
+CREATE TABLE `western_conference_playoffs_team` (
+  `Team_Name` VARCHAR(100) NOT NULL,
+	`Team_Ranking` VARCHAR(100) NOT NULL,
+	PRIMARY KEY(`Team_Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+# Dump of table every_game_predicted_result
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `every_game_predicted_result`;
+
+CREATE TABLE `every_game_predicted_result` (
+  `Date` VARCHAR(100) NOT NULL,
+	`Start_Time_ET` VARCHAR(100) NOT NULL,
+	`Visitor_Team` VARCHAR(100) NOT NULL,
+	`Home_Team` VARCHAR(100) NOT NULL,
+	`Predicted_Visitor_Score` VARCHAR(100) NOT NULL,
+	`Predicted_Home_Score` VARCHAR(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

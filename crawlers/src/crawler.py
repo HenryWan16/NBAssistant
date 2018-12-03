@@ -22,6 +22,7 @@ month_dict = {
     'april': "04"
 }
 
+
 class WebCrawler:
     def __init__(self):
         if configuration.CHROME_HEAD_LESS:
