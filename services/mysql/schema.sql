@@ -32,8 +32,9 @@ CREATE TABLE `players` (
   `photo` varchar(200) DEFAULT NULL,
   `position` varchar(100) DEFAULT NULL,
   `height` varchar(5) DEFAULT NULL,
-  `weight` INT(32) DEFAULT NULL,
+  `weight` bigint(64) DEFAULT NULL,
   `points` decimal(11,2) DEFAULT NULL,
+  `first_character` varchar(1) DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -50,16 +51,16 @@ DROP TABLE IF EXISTS `schedules`;
 CREATE TABLE `schedules` (
   `id` bigint(64) NOT NULL AUTO_INCREMENT,
   `date` varchar(10) DEFAULT NULL,
-  `start_time_ET` varchar(6) DEFAULT NULL,
+  `start_time_ET` varchar(10) DEFAULT NULL,
   `visitor` varchar(100) DEFAULT NULL,
   `home` varchar(100) DEFAULT NULL,
   `teamA_id` bigint(64) DEFAULT NULL,
-  `teamA_score` int(32) DEFAULT NULL,
+  `teamA_score` bigint(64) DEFAULT NULL,
   `teamB_id` bigint(64) DEFAULT NULL,
-  `teamB_score` int(32) DEFAULT NULL,
+  `teamB_score` bigint(64) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `start_time_ET` (`start_time_ET`)
+  KEY `date_visitor` (`date`, `visitor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -75,8 +76,7 @@ CREATE TABLE `team_players` (
   `player_id` bigint(64) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `team_id` (`team_id`),
-  KEY `player_id` (`player_id`)
+  KEY `player_in_team` (`team_id`,`player_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
@@ -109,11 +109,14 @@ DROP TABLE IF EXISTS `awards_prediction`;
 
 CREATE TABLE `awards_prediction` (
   `id` bigint(64) NOT NULL AUTO_INCREMENT,
-  `MVP` VARCHAR(100) NOT NULL,
-	`eastern_champion` VARCHAR(100) NOT NULL,
-	`western_champion` VARCHAR(100) NOT NULL,
-	`final_champion` VARCHAR(100) NOT NULL
+  `MVP` varchar(100) NOT NULL,
+  `eastern_champion` varchar(100) NOT NULL,
+  `western_champion` varchar(100) NOT NULL,
+  `final_champion` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 
 # Dump of table eastern_conference_playoffs_team
 # ------------------------------------------------------------
@@ -121,21 +124,12 @@ CREATE TABLE `awards_prediction` (
 DROP TABLE IF EXISTS `eastern_conference_playoffs_team`;
 
 CREATE TABLE `eastern_conference_playoffs_team` (
-  `Team_Name` VARCHAR(100) NOT NULL,
-	`Team_Ranking` VARCHAR(100) NOT NULL,
-	PRIMARY KEY(`Team_Name`)
+  `Team_Name` varchar(100) NOT NULL,
+  `Team_Ranking` varchar(100) NOT NULL,
+  PRIMARY KEY (`Team_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-# Dump of table eastern_conference_playoffs_team
-# ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `western_conference_playoffs_team`;
-
-CREATE TABLE `western_conference_playoffs_team` (
-  `Team_Name` VARCHAR(100) NOT NULL,
-	`Team_Ranking` VARCHAR(100) NOT NULL,
-	PRIMARY KEY(`Team_Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # Dump of table every_game_predicted_result
 # ------------------------------------------------------------
@@ -143,12 +137,26 @@ CREATE TABLE `western_conference_playoffs_team` (
 DROP TABLE IF EXISTS `every_game_predicted_result`;
 
 CREATE TABLE `every_game_predicted_result` (
-  `Date` VARCHAR(100) NOT NULL,
-	`Start_Time_ET` VARCHAR(100) NOT NULL,
-	`Visitor_Team` VARCHAR(100) NOT NULL,
-	`Home_Team` VARCHAR(100) NOT NULL,
-	`Predicted_Visitor_Score` VARCHAR(100) NOT NULL,
-	`Predicted_Home_Score` VARCHAR(100) NOT NULL
+  `Date` varchar(100) NOT NULL,
+  `Start_Time_ET` varchar(100) NOT NULL,
+  `Visitor_Team` varchar(100) NOT NULL,
+  `Home_Team` varchar(100) NOT NULL,
+  `Predicted_Visitor_Score` varchar(100) NOT NULL,
+  `Predicted_Home_Score` varchar(100) NOT NULL,
+  PRIMARY KEY (`Date`, `Visitor_Team`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+# Dump of table western_conference_playoffs_team
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `western_conference_playoffs_team`;
+
+CREATE TABLE `western_conference_playoffs_team` (
+  `Team_Name` varchar(100) NOT NULL,
+  `Team_Ranking` varchar(100) NOT NULL,
+  PRIMARY KEY (`Team_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

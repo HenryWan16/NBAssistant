@@ -8,9 +8,9 @@ class Schedule:
         self.visitor = visitor
         self.home = home
         self.teamA_id = int(teamA_id)
-        self.teamA_score = int(teamA_score)
+        self.teamA_score = int(teamA_score) if teamA_score else None
         self.teamB_id = int(teamB_id)
-        self.teamB_score = int(teamB_score)
+        self.teamB_score = int(teamB_score) if teamB_score else None
         self.created_at = datetime.datetime.utcnow()
 
 

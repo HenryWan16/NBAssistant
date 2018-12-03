@@ -141,8 +141,8 @@ western_conference_playoffs_teams_name = ["Denver Nuggets", "Oklahoma City Thund
 
 
 try:
-  mydb = mysql.connector.connect(user='root', password='Woshirmz777haha',
-                              host='127.0.0.1',database = 'predictions')
+  mydb = mysql.connector.connect(user='twist', password='twist',
+                              host='127.0.0.1', port='3307', database = 'nbassistant')
 
   cursor = mydb.cursor()
   cursor.execute("TRUNCATE TABLE eastern_conference_playoffs_team")

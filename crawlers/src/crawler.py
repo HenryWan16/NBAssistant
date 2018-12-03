@@ -2,12 +2,13 @@ from config import Config
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from dataset import connect
 from players import Player
 from schedules import Schedule
 from teams import Team
 from teams import TeamPlayer
-import time
 
 
 configuration = Config()
@@ -33,6 +34,8 @@ class WebCrawler:
             self.driver = webdriver.Chrome()
         if configuration.IMPLICIT_WAIT:
             self.driver.implicitly_wait(configuration.IMPLICIT_WAIT_TIME)
+        self.wait = WebDriverWait(self.driver, configuration.WAIT_TIME)
+        # self.wait.until(EC.presence_of_element_located((By.XPATH, element_xpath)), configuration.WAIT_TIME)
 
     def get_teams_info(self, basic_url):
         url = basic_url + "teams"
@@ -166,141 +169,130 @@ class WebCrawler:
             # info log
             print("Upsert schedule (date and visitor_name) successfully! " + schedule_dates[i] + " " + schedule_visitors[i])
 
-    def get_players_info(self, players_url, character):
+    def get_players_info(self, players_url, character, target_year):
         url = players_url + str(character)
         self.driver.get(url)
-        player_names = []
-        player_descriptions = []
-        player_photos = []
-        player_positions = []
-        player_heights = []
-        player_weights = []
-        player_teams = []
-        player_points = []
 
-        # name
-        players_name_elements = self.driver.find_elements(By.XPATH, "//table[@id='players']//tbody//tr/th/a")
-        for player_name in players_name_elements:
-            player_name_str = player_name.text
-            player_names.append(player_name_str)
-            # debug log
-            print("Player clawler (name): " + player_name_str)
+        # to_year length
+        players_to_year_elements = self.driver.find_elements(By.XPATH,
+                                                             "//table[@id='players']//tbody//tr/td[@data-stat='year_max']")
+        n = len(players_to_year_elements)
+        for i in range(0, n):
+            self.driver.get(url)
 
-        # photo and description
-        players_tag_elements = self.driver.find_elements(By.XPATH, "//table[@id='players']//tbody//tr/th")
-        for player_tag in players_tag_elements:
-            tag = player_tag.get_attribute("data-append-csv")
-            photo = "https://d2cwpp38twqe55.cloudfront.net/req/201811081/images/players/" + tag + ".jpg"
-            player_photos.append(photo)
-            # debug log
-            print("Player clawler (photo): " + photo)
-
-            description = url + "/" + tag + ".html"
-            player_descriptions.append(description)
-            # debug log
-            print("Player clawler (description): " + description)
-
-        # position
-        players_pos_elements = self.driver.find_elements(By.XPATH, "//table[@id='players']//tbody//tr/td[@data-stat='pos']")
-        for player_pos in players_pos_elements:
-            player_pos_str = player_pos.text
-            player_positions.append(player_pos_str)
-            # debug log
-            print("Player clawler (position): " + player_pos_str)
-
-        # height
-        players_height_elements = self.driver.find_elements(By.XPATH, "//table[@id='players']//tbody//tr/td[@data-stat='height']")
-        for player_height in players_height_elements:
-            player_height_str = player_height.text
-            player_heights.append(player_height_str)
-            # debug log
-            print("Player clawler (height): " + player_height_str)
-
-        # weight
-        players_weight_elements = self.driver.find_elements(By.XPATH, "//table[@id='players']//tbody//tr/td[@data-stat='weight']")
-        for player_weight in players_weight_elements:
-            player_weight_str = player_weight.text
-            player_weights.append(player_weight_str)
-            # debug log
-            print("Player clawler (weight): " + player_weight_str)
-
-        # team and point
-        for player_desc in player_descriptions:
-            self.driver.get(player_desc)
+            # to_year
             try:
-                team_name_element = self.driver.find_element_by_xpath("//div[@id='meta']//div[2]/p[5]/a")
-                team_name_str = team_name_element.text
-                player_teams.append(team_name_str)
-                # debug log
-                print("Player clawler (player's team name): " + team_name_str)
-            except NoSuchElementException:
-                player_teams.append(None)
-                # debug log
-                print("Player clawler (player's team name): No team")
-            try:
-                point_element = self.driver.find_element_by_xpath("//div[@class='stats_pullout']//div[@class='p1']/div[2]/p[2]")
-                point_str = point_element.text
-                player_points.append(point_str)
-                # debug log
-                print("Player clawler (points): " + point_str)
-            except NoSuchElementException:
-                player_points.append(None)
-                # debug log
-                print("Player clawler (points): No point currently")
 
-        # i = 5
-        # print(player_names[i])
-        # print(player_descriptions[i])
-        # print(player_photos[i])
-        # print(player_positions[i])
-        # print(player_heights[i])
-        # print(player_weights[i])
-        # print(player_teams[i])
-        # print(player_points[i])
-        player_table_handler = db['players']
-        team_table_handler = db['teams']
-        team_players_table_handler = db['team_players']
-        for i in range(0, len(player_names)):
-            player = Player(name=player_names[i], gender='Male',
-                            photo=player_photos[i], position=player_positions[i],
-                            height=player_heights[i], weight=player_weights[i],
-                            points=player_points[i], description=player_descriptions[i])
+                player_to_year_element = self.driver.find_element_by_xpath("(//table[@id='players']//tbody//tr/td[@data-stat='year_max'])[" + str(i) + "]")
+            except NoSuchElementException:
+                continue
+            player_to_year = int(player_to_year_element.text)
+            if player_to_year < target_year:
+                continue
+
+            try:
+                player_name_element = self.driver.find_element_by_xpath("(//table[@id='players']//tbody//tr/th//a)[" + str(i) + "]")
+            except NoSuchElementException:
+                continue
+            player_name = player_name_element.text
+            # debug log
+            print("Player clawler (name): " + player_name)
+
+            # photo and description
+            try:
+                player_tag_element = self.driver.find_element_by_xpath("(//table[@id='players']//tbody//tr/th)[" + str(i) + "]")
+            except NoSuchElementException:
+                continue
+            tag = player_tag_element.get_attribute("data-append-csv")
+            player_photo = "https://d2cwpp38twqe55.cloudfront.net/req/201811081/images/players/" + tag + ".jpg"
+            player_description = url + "/" + tag + ".html"
+
+            # position
+            try:
+                player_position_element = self.driver.find_element_by_xpath("(//table[@id='players']//tbody//tr/td[@data-stat='pos'])[" + str(i) + "]")
+            except NoSuchElementException:
+                continue
+            player_position = player_position_element.text
+            # debug log
+            print("Player clawler (position): " + player_position)
+
+            # height
+            try:
+                player_height_element = self.driver.find_element_by_xpath("(//table[@id='players']//tbody//tr/td[@data-stat='height'])[" + str(i) + "]")
+            except NoSuchElementException:
+                continue
+            player_height = player_height_element.text
+            # debug log
+            print("Player clawler (height): " + player_height)
+
+            # weight
+            try:
+                player_weight_element = self.driver.find_element_by_xpath("(//table[@id='players']//tbody//tr/td[@data-stat='weight'])[" + str(i) + "]")
+            except NoSuchElementException:
+                continue
+            player_weight = player_weight_element.text
+            # debug log
+            print("Player clawler (weight): " + player_weight)
+
+            # team and points
+            self.driver.get(player_description)
+            try:
+                # a special way to find xpath
+                team_name_element = self.driver.find_element_by_xpath("//div[@id='meta']//a[contains(@href, 'teams')]")
+                player_team = team_name_element.text
+            except NoSuchElementException:
+                player_team = None
+            # debug log
+            print("Player name: " + str(player_name) + "Player clawler (player's team name): " + str(player_team))
+            try:
+                # self.wait.until(EC.presence_of_element_located(
+                #     (By.XPATH, "//div[@class='stats_pullout']//div[@class='p1']/div[2]/p[2]")),
+                #     configuration.WAIT_TIME)
+                player_points_element = self.driver.find_element_by_xpath("//div[@class='stats_pullout']//div[@class='p1']/div[2]/p[2]")
+                player_points = player_points_element.text
+            except NoSuchElementException:
+                player_points = None
+            # debug log
+            print("Player name: " + str(player_name) + "Player clawler (player's points): " + str(player_points))
+
+            # insert into player table and team_player table
+            player_table_handler = db['players']
+            team_table_handler = db['teams']
+            team_players_table_handler = db['team_players']
+            player = Player(name=player_name, gender='Male',
+                            photo=player_photo, position=player_position,
+                            height=player_height, weight=player_weight,
+                            points=player_points, first_character=character,
+                            description=player_description)
             player_json = player.__dict__
             player_table_handler.upsert(player_json, ['name'])
             # debug log
-            print("Upsert player (name) successfully! " + player_names[i])
+            print("Upsert player (name) successfully! " + str(player_name))
 
-            player = player_table_handler.find_one(name=player_names[i])
+            player = player_table_handler.find_one(name=player_name)
             player_id = player['id']
 
-            if not player_teams[i]:
+            if not player_team:
                 continue
-            team = team_table_handler.find_one(name=player_teams[i])
-            team_id = team['id']
-            team_player = TeamPlayer(team_id, player_id)
-            team_player_json = team_player.__dict__
-            team_players_table_handler.upsert(team_player_json, ['player_id'])
-            # debug log
-            print("Upsert team_player (team_id, player_id) successfully! " + str(team_id) + " " + str(player_id))
-
-    def update_players_info(self, players_url, character, target_year):
-        url = players_url + str(character)
-        self.driver.get(url)
-        last_year_element = self.driver.find_element_by_xpath("//table[@id='players']//tbody//td[@data-stat='year_max']")
-        last_year = int(last_year_element.text)
-        if last_year >= target_year:
-            self.get_players_info(players_url, character)
+            team = team_table_handler.find_one(name=player_team)
+            if team:
+                team_id = team['id']
+                team_player = TeamPlayer(team_id, player_id)
+                team_player_json = team_player.__dict__
+                team_players_table_handler.upsert(team_player_json, ['player_id'])
+                # debug log
+                print("Upsert team_player (team_id, player_id) successfully! " + str(team_id) + " " + str(player_id))
 
     def craw(self):
-        self.get_teams_info(configuration.BASIC_URL)
-        years = [2019, 2018, 2017, 2016, 2015]
-        months = ['october', 'november', 'december', 'january', 'february', 'march', 'april']
-        for year in years:
-            for month in months:
-                self.get_schedules_info(configuration.SCHEDULES_URL, year, month)
+        # self.get_teams_info(configuration.BASIC_URL)
+        # years = [2019, 2018]
+        # months = ['october', 'november', 'december', 'january', 'february', 'march', 'april']
+        # for year in years:
+        #     for month in months:
+        #         self.get_schedules_info(configuration.SCHEDULES_URL, year, month)
         characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
         for c in characters:
-            self.get_players_info(configuration.PLAYERS_URL, c)
+            self.get_players_info(configuration.PLAYERS_URL, c, configuration.TARGET_YEAR)
 
 # unit test
 if __name__ == '__main__':
