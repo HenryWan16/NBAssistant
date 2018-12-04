@@ -163,7 +163,7 @@ class WebCrawler:
             visitor_id = visitor['id']
             team = team_table_handler.find_one(name=schedule_homes[i])
             home_id = team['id']
-            schedule = Schedule(date=schedule_dates[i], start=schedule_dates[i],
+            schedule = Schedule(date=schedule_dates[i], start=schedule_start_time_ETs[i],
                                 visitor=schedule_visitors[i], home=schedule_homes[i],
                                 teamA_id=visitor_id, teamA_score=schedule_visitors_score[i],
                                 teamB_id=home_id, teamB_score=schedule_homes_score[i])
