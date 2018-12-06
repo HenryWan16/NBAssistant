@@ -9,7 +9,7 @@ class Config:
                    "Toronto Raptors", "Oklahoma City Thunder", "Utah Jazz", "Denver Nuggets",
                    "Los Angeles Lakers", "Portland Trail Blazers", "Indiana Pacers",
                    "New Orleans Pelicans", "San Antonio Spurs", "Washington Wizards",
-                   "Minnesota Timberwolves", "Milwaukee Bucks", "LA Clippers",
+                   "Minnesota Timberwolves", "Milwaukee Bucks", "Los Angeles Clippers",
                    "Memphis Grizzlies", "Dallas Mavericks", "Miami Heat"]
     TOP20_PLAYERS = ["LeBron James", "Kevin Durant", "Kawhi Leonard", "Anthony Davis", "Stephen Curry",
                      "Giannis Antetokounmpo", "James Harden", "Russell Westbrook", "Kyrie Irving",

@@ -39,6 +39,16 @@ def home():
                 },
                 {},
                 {},
+            ],
+            "top_teams": [
+                {
+                    "team_id": 1301,
+                    "team_name": "Houston Rockets",
+                    "location": "Houston",
+                    "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png",
+                    "big_logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/HOU.png"
+                },
+                {}
             ]
         }
     }
@@ -52,18 +62,33 @@ def home():
         team_player_temp = TeamPlayer.query.filter_by(player_id=player_temp.id).first()
         team_temp = Team.query.filter_by(id=team_player_temp.team_id).first()
         temp_player = {
-            "player_id": player_temp.id,
+            "player_id": str(player_temp.id),
             "player_name": player_name,
-            "team_id": team_player_temp.team_id,
+            "team_id": str(team_player_temp.team_id),
             "team_name": team_temp.name,
             "picture": player_temp.photo
         }
         players_list.append(temp_player)
-
+    teams_name_list = configuration.TOP20_TEAMS
+    teams_list = []
+    for team_name in teams_name_list:
+        logger.debug(team_name)
+        team_temp = Team.query.filter_by(name=team_name).first()
+        team = {
+            "team_id": str(team_temp.id),
+            "team_name": team_name,
+            "location": team_temp.location,
+            "logo": team_temp.logo,
+            "big_logo": team_temp.big_logo
+        }
+        teams_list.append(team)
     res = {
         "meta": {
             "code": 200
         },
-        "data": players_list
+        "data": {
+            "top_players": players_list,
+            "top_teams": teams_list
+        }
     }
     return json.dumps(res)
