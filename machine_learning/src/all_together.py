@@ -4,6 +4,27 @@ import mysql.connector
 from mysql.connector import errorcode
 
 
+def convert_date(date_str):
+    # Added by Henry on Dec 6, 2018
+    # convert Fri, Apr 5, 2019 to 2019-04-5
+    month_dict = {
+        'Oct': "10",
+        'Nov': "11",
+        'Dec': "12",
+        'Jan': "01",
+        'Feb': "02",
+        'Mar': "03",
+        'Apr': "04"
+    }
+    array = date_str.split(", ")
+    year = array[2]
+    month_date_array = array[1].split()
+    month = month_dict[month_date_array[0]]
+    day = month_date_array[1]
+    date = year + "-" + month + "-" + day
+    return date
+
+
 standing = pd.read_csv("2018-2019_standings.csv")
 standing.columns = ["Rank", "Team", "Overall", "Home",
                     "Road", "Team Points Per Game",
@@ -174,7 +195,8 @@ try:
   sql_insert_query_game = """ INSERT INTO `every_game_predicted_result` (`Date`,`Start_Time_ET`, `Visitor_Team`,`Home_Team`,
   `Predicted_Visitor_Score`,`Predicted_Home_Score`) VALUES (%s,%s,%s,%s,%s,%s)"""
   for index, row in gameResult.iterrows():
-      date = row["Date"]
+      date_temp = row["Date"]
+      date = convert_date(date_temp)
       start_time = row["Start Time(ET)"]
       visitor_team = row["Visitor Team"]
       home_team = row["Home Team"]
@@ -197,8 +219,6 @@ else:
   cursor.execute("Select database();")
   record = cursor.fetchone()
   print("You connected to - ", record)
-
-
 
 
 

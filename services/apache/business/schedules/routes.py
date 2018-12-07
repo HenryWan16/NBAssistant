@@ -2,6 +2,7 @@ from flask import Blueprint
 from business.config import Config
 from business.models import Team
 from business.models import Schedule
+from business.models import EveryGamePredictedResult
 import json
 import logging
 
@@ -40,7 +41,8 @@ def schedule(date):
                         "team_name": "New Orleans Pelicans",
                         "location": "New Orleans",
                         "logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/NOH.png"
-                    }
+                    },
+                    "winner": "Houston Rockets"
                 },
                 {},
                 {}
@@ -54,7 +56,13 @@ def schedule(date):
         schedules_list = []
         for schedule in schedules_temp:
             teamA_temp = Team.query.filter_by(id=schedule.teamA_id).first()
-            teamB_temp = Team.query.filter_by(id=schedule.teamA_id).first()
+            teamB_temp = Team.query.filter_by(id=schedule.teamB_id).first()
+            if not schedule.teamA_score or not schedule.teamB_score:
+                game_predicted_result_temp = EveryGamePredictedResult.query.filter_by(Date=date, Visitor_Team=teamA_temp.name)
+                winner = teamA_temp.name if float(game_predicted_result_temp.Predicted_Visitor_Score) > float(
+                    game_predicted_result_temp.Predicted_Home_Score) else teamB_temp.name
+            else:
+                winner = teamA_temp.name if int(schedule.teamA_score) > int(schedule.teamB_score) else teamB_temp.name
             schedule_json = {
                 "date": date,
                 "start_time_ET": schedule.start_time_ET,
@@ -73,7 +81,8 @@ def schedule(date):
                     "location": teamB_temp.location,
                     "logo": teamB_temp.logo,
                     "big_logo": teamB_temp.big_logo
-                }
+                },
+                "winner": winner
             }
             schedules_list.append(schedule_json)
         res = {

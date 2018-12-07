@@ -232,7 +232,8 @@ Response:
 					"team_name": "New Orleans Pelicans",
 					"location": "New Orleans",
 					"logo": "https://d2p3bygnnzw9w3.cloudfront.net/req/201811271/tlogo/bbr/NOH.png"
-				}
+				},
+				"winner": "Houston Rockets"
 			},
 			{},
 			{}
