@@ -52,6 +52,7 @@ def schedule(date):
     return json.dumps(res)
     """
     schedules_temp = Schedule.query.filter_by(date=date)
+    logger.debug("Date request: " + date)
     if schedules_temp:
         schedules_list = []
         for schedule in schedules_temp:
@@ -63,6 +64,8 @@ def schedule(date):
                     game_predicted_result_temp.Predicted_Home_Score) else teamB_temp.name
             else:
                 winner = teamA_temp.name if int(schedule.teamA_score) > int(schedule.teamB_score) else teamB_temp.name
+            logger.debug("teamA name: " + teamA_temp.name)
+            logger.debug("teamB name: " + teamB_temp.name)
             schedule_json = {
                 "date": date,
                 "start_time_ET": schedule.start_time_ET,

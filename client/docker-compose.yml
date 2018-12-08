@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  apache:
+    image: nbassistant_client:latest
+    container_name: client_nbassistant
+    ports:
+      - "3000:80"
+    restart: "no"

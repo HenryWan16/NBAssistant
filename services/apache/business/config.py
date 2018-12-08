@@ -1,10 +1,10 @@
-import os
 import sys
 import logging
 
 
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://twist:twist@10.250.196.180:3307/nbassistant'
+    HOST_IP = "10.250.196.180"
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://twist:twist@" + HOST_IP + ":3307/nbassistant"
     TOP20_TEAMS = ["Golden State Warriors", "Boston Celtics", "Houston Rockets", "Philadelphia 76ers",
                    "Toronto Raptors", "Oklahoma City Thunder", "Utah Jazz", "Denver Nuggets",
                    "Los Angeles Lakers", "Portland Trail Blazers", "Indiana Pacers",

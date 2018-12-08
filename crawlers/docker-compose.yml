@@ -3,6 +3,7 @@ version: '3'
 services:
   mysql:
     image: mysql:5.7
+    container_name: crawlers_mysql
     volumes:
       - "./mysql/conf.d:/etc/mysql/conf.d"
       - "mysqldata:/var/lib/mysql"
@@ -16,6 +17,7 @@ services:
       MYSQL_PASSWORD: twist
 
   crawler:
+    container_name: crawlers_crawler
     depends_on:
       - mysql
     image: nbassistant_web_crawler:latest

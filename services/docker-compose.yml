@@ -3,6 +3,7 @@ version: '3'
 services:
   apache:
     image: nbassistant_apache:latest
+    container_name: services_apache
     ports:
       - "5000:80"
     restart: "no"

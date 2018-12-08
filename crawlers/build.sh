@@ -1,5 +1,5 @@
-1. build
-  $ docker build -t nbassistant_web_crawler src/
+# 1. build
+docker build -t nbassistant_web_crawler src/
 
-2. run web crawler with docker-compose
-  $ docker-compose up -d
+# 2. run web crawler with docker-compose
+#  $ docker-compose up -d

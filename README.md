@@ -28,6 +28,16 @@ https://www.basketball-reference.com
 16. open a new terminal, and cd /NBAssistant/crawlers
 17. docker-compose down
 
+## Get start quickly
+1. cd NBAssistant/client/
+2. docker-compose up -d
+3. cd NBAssistant/crawlers/
+4. docker-compose up -d
+5. cd NBAssistant/services/
+6. docker-compose up -d
+7. cd NBAssistant/
+8. ./stop.sh
+
 ## How to upload CSV to MySQL with Sequelpro?
 1. docker ps 
 + Make sure all the services is running.
